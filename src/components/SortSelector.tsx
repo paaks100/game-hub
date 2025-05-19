@@ -3,28 +3,38 @@ import { BsChevronDown } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
 
 interface Props {
+    onSelectSortOrder: (order: string) => void;
+    selectedSortOrder: string;
 }
 
-const SortSelector = ({ }: Props) => {
-    const sortFactors = ['Relevance', 'Date added', 'Name', 'Release Date', 'Popularity', 'Average rating'];
+const SortSelector = ({ onSelectSortOrder, selectedSortOrder }: Props) => {
+    const sortOrders = [
+        { value: '', label: 'Relevance' },
+        { value: '-added', label: 'Date added' },
+        { value: 'name', label: 'Name' },
+        { value: '-released', label: 'Release Date' },
+        { value: 'metacritic', label: 'Popularity' },
+        { value: 'rating', label: 'Average rating' }
+    ];
+
+    const currentSortOrder = sortOrders.find(order => order.value === selectedSortOrder);
 
     return (
         <Menu.Root>
             <Menu.Trigger>
                 <Button variant='ghost' justifyContent='space-between'>
-                    {/* <Text>{selectedPlatform?.name || 'Platforms'}</Text> */}
-                    <Text>Order by: Relevance</Text>
+                    <Text>Order by: {currentSortOrder?.label || 'Relevance'}</Text>
                     <BsChevronDown />
                 </Button>
             </Menu.Trigger>
             <Portal>
                 <Menu.Positioner>
                     <Menu.Content>
-                        {sortFactors.map(factor => (
-                            <HStack key={factor} justifyContent='space-between'>
+                        {sortOrders.map(order => (
+                            <HStack key={order.value} onClick={() => onSelectSortOrder(order.value)} justifyContent='space-between'>
                                 <Menu.Item>
-                                    {factor}
-                                    <Menu.ItemCommand><FaCheck /></Menu.ItemCommand>
+                                    {order.label}
+                                    {selectedSortOrder === order.value && <Menu.ItemCommand><FaCheck /></Menu.ItemCommand>}
                                 </Menu.Item>
                             </HStack>
                         ))}
