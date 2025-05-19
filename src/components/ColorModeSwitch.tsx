@@ -3,6 +3,7 @@ import { useColorMode } from "./ui/color-mode";
 
 const ColorModeSwitch = () => {
     const { toggleColorMode, colorMode } = useColorMode();
+
     return (
         <HStack>
             <Switch.Root checked={colorMode === 'dark'} onCheckedChange={toggleColorMode} colorPalette='green'>
