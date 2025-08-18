@@ -25,7 +25,7 @@ const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
             <Portal>
                 <Menu.Positioner>
                     <Menu.Content>
-                        {platforms.map(platform => (
+                        {platforms?.results.map(platform => (
                             <HStack key={platform.id} onClick={() => onSelectPlatform(platform)} justifyContent='space-between'>
                                 <Menu.Item>
                                     {platform.name}
