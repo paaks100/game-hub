@@ -1,7 +1,6 @@
 import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
-import usePlatforms from '../hooks/usePlatforms';
-import { Platform } from '../hooks/useGames';
+import usePlatforms, { Platform } from '../hooks/usePlatforms';
 import { FaCheck } from 'react-icons/fa';
 
 interface Props {
