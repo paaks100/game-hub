@@ -1,16 +1,14 @@
 import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
-import usePlatforms, { Platform } from '../hooks/usePlatforms';
+import usePlatforms from '../hooks/usePlatforms';
 import { FaCheck } from 'react-icons/fa';
 import usePlatform from '../hooks/usePlatform';
+import useGameQueryStore from '../store';
 
-interface Props {
-    onSelectPlatform: (platform: Platform) => void;
-    selectedPlatformId?: number;
-}
-
-const PlatformSelector = ({ onSelectPlatform, selectedPlatformId }: Props) => {
-    const { data: platforms, error } = usePlatforms();
+const PlatformSelector = () => {
+    const { data, error } = usePlatforms();
+    const selectedPlatformId = useGameQueryStore(s => s.gameQuery.platformId);
+    const setSelectedPlatformId = useGameQueryStore(s => s.setPlatformId);
     const selectedPlatform = usePlatform(selectedPlatformId);
 
     if (error) return null;
@@ -26,8 +24,8 @@ const PlatformSelector = ({ onSelectPlatform, selectedPlatformId }: Props) => {
             <Portal>
                 <Menu.Positioner>
                     <Menu.Content>
-                        {platforms?.results.map(platform => (
-                            <HStack key={platform.id} onClick={() => onSelectPlatform(platform)} justifyContent='space-between'>
+                        {data?.results.map(platform => (
+                            <HStack key={platform.id} onClick={() => setSelectedPlatformId(platform.id)} justifyContent='space-between'>
                                 <Menu.Item>
                                     {platform.name}
                                     {selectedPlatform?.id === platform.id && <Menu.ItemCommand><FaCheck /></Menu.ItemCommand>}

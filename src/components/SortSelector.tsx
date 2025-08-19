@@ -1,13 +1,9 @@
 import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
 import { BsChevronDown } from 'react-icons/bs';
 import { FaCheck } from 'react-icons/fa';
+import useGameQueryStore from '../store';
 
-interface Props {
-    onSelectSortOrder: (order: string) => void;
-    selectedSortOrder: string;
-}
-
-const SortSelector = ({ onSelectSortOrder, selectedSortOrder }: Props) => {
+const SortSelector = () => {
     const sortOrders = [
         { value: '', label: 'Relevance' },
         { value: '-added', label: 'Date added' },
@@ -16,7 +12,9 @@ const SortSelector = ({ onSelectSortOrder, selectedSortOrder }: Props) => {
         { value: 'metacritic', label: 'Popularity' },
         { value: 'rating', label: 'Average rating' }
     ];
-
+    
+    const selectedSortOrder = useGameQueryStore(s => s.gameQuery.sortOrder);
+    const setSelectedSortOrder = useGameQueryStore(s => s.setSortOrder);
     const currentSortOrder = sortOrders.find(order => order.value === selectedSortOrder);
 
     return (
@@ -31,7 +29,7 @@ const SortSelector = ({ onSelectSortOrder, selectedSortOrder }: Props) => {
                 <Menu.Positioner>
                     <Menu.Content>
                         {sortOrders.map(order => (
-                            <HStack key={order.value} onClick={() => onSelectSortOrder(order.value)} justifyContent='space-between'>
+                            <HStack key={order.value} onClick={() => setSelectedSortOrder(order.value)} justifyContent='space-between'>
                                 <Menu.Item>
                                     {order.label}
                                     {selectedSortOrder === order.value && <Menu.ItemCommand><FaCheck /></Menu.ItemCommand>}
