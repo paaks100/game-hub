@@ -1,4 +1,4 @@
-interface Trailer{
+export interface Trailer{
     id: number;
     name: string;
     preview: string;
